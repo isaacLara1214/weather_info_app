@@ -32,14 +32,29 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _cityController = TextEditingController();
   String _cityName = "";
-  int? _temperature; 
-  String? _weatherCondition; 
+  int? _temperature;
+  String? _weatherCondition;
+  List<Map<String, dynamic>> _weeklyForecast = [];
 
   void _fetchWeather() {
     setState(() {
+      _cityName = _cityController.text.isNotEmpty ? _cityController.text : "Unknown City";
       _temperature = Random().nextInt(16) + 15; 
       List<String> conditions = ["Sunny", "Cloudy", "Rainy"];
       _weatherCondition = conditions[Random().nextInt(conditions.length)];
+    });
+  }
+
+  void _fetchWeeklyForecast() {
+    List<String> conditions = ["Sunny", "Cloudy", "Rainy"];
+    setState(() {
+      _weeklyForecast = List.generate(7, (index) {
+        return {
+          "day": "Day ${index + 1}",
+          "temperature": Random().nextInt(16) + 15,
+          "condition": conditions[Random().nextInt(conditions.length)],
+        };
+      });
     });
   }
 
@@ -68,8 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: _fetchWeather,
               child: const Text("Fetch Weather"),
             ),
+            ElevatedButton(
+              onPressed: _fetchWeeklyForecast,
+              child: const Text("Fetch 7-Day Forecast"),
+            ),
             const SizedBox(height: 20),
-            if (_temperature != null && _weatherCondition != null) 
+            if (_temperature != null && _weatherCondition != null)
               Column(
                 children: [
                   Text(
@@ -80,6 +99,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     "$_temperature°C, $_weatherCondition",
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
+                ],
+              ),
+            const SizedBox(height: 20),
+            if (_weeklyForecast.isNotEmpty)
+              Column(
+                children: [
+                  const Text(
+                    "7-Day Weather Forecast:",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  ..._weeklyForecast.map((day) {
+                    return Text(
+                      "${day['day']}: ${day['temperature']}°C, ${day['condition']}",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    );
+                  }).toList(),
                 ],
               ),
           ],

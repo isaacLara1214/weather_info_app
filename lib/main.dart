@@ -32,10 +32,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _temp = 0;
   String _weather = "Cloudy";
+  var array = ["Cloudy", "Rain", "Sunny", "Snow", "Windy"];
 
   void _randomizeWeather() {
     setState(() {
-      _weather = "Rain";
+      _weather = array[Random().nextInt(array.length)];
     });
   }
 

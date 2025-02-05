@@ -31,9 +31,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _temp = 0;
-  String _city = "London";
+  String _weather = "Cloudy";
+
+  void _randomizeWeather() {
+    setState(() {
+      _weather = "Rain";
+    });
+  }
 
   void _randomizeTemp() {
+    _randomizeWeather();
     setState(() {
       _temp = Random().nextInt(75) + 15;
     });
@@ -61,6 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_temp °',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            Text(
+              _weather,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ],
         ),

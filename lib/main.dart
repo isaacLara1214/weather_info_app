@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _randomizeTemp() {
     setState(() {
-      _temp = Random().nextInt(100);
+      _temp = Random().nextInt(75) + 15;
     });
   }
 
@@ -50,8 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              _city,
+            SizedBox(
+              width: 250,
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'City',
+                ),
+              ),
             ),
             Text(
               '$_temp °',
